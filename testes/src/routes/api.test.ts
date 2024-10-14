@@ -81,6 +81,41 @@ describe("Testando rotas da API", () => {
       })
   })
 
+  it("Não deve logar com os dados incorretos", (done) => {
+    request(app)
+    .post("/login")
+    .send(`email=${email}&password=senhaErrada`)
+    .then((response)=>{
+      expect(response.body.status).toBeFalsy()
+      return done()
+    })
+ })
 
+    it("Deve listar os usuários", (done) => {
+      request(app)
+      .get("/list")
+      .then((response)=>{
+        expect(response.body.list.length).toBeGreaterThanOrEqual(1)
+        expect(response.body.list).toBeInstanceOf(Array)
+        return done()
+      })
+    })
 
+    it("Deve excluir um usuário", (done) => {
+      request(app)
+      .delete(`/delete/${email}`)
+      .then((response) => {
+        expect(response.body.error).toBeUndefined();
+        return done()
+      })
+    })
+  
+    it("Não deve excluir um usuário inexistente", (done) => {
+      request(app)
+      .delete(`/delete/dhsvcsnbv@email`)
+      .then((response) => {
+        expect(response.status).toBe(404)
+        return done()
+      })
+    })
 });
