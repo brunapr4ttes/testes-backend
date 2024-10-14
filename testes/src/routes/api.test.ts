@@ -112,7 +112,7 @@ describe("Testando rotas da API", () => {
   
     it("Não deve excluir um usuário inexistente", (done) => {
       request(app)
-      .delete(`/delete/dhsvcsnbv@email`)
+      .delete(`/delete/bruninha@email`)
       .then((response) => {
         expect(response.status).toBe(404)
         return done()
